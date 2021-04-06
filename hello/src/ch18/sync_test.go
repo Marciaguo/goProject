@@ -6,6 +6,14 @@ import (
 	"time"
 )
 
+func TestSelect(t *testing.T) {
+	select {
+	case ret := <-AsyncService():
+		t.Log(ret)
+	case <-time.After(time.Millisecond * 100):
+		t.Error("time out")
+	}
+}
 func service() string {
 	time.Sleep(time.Microsecond * 50)
 	return "Done"
